@@ -8,22 +8,22 @@
       "default": false
     },
     "include_references": {
-      "name": "Include References",
+      "name": "References",
       "type": "boolean",
       "default": false
     },
     "enable_section_numbering": {
-      "name": "Section Numbering",
+      "name": "Numbering",
       "type": "boolean",
       "default": false
     },
     "include_source_file": {
-      "name": "Include Source File",
+      "name": "Source File",
       "type": "boolean",
       "default": false
     },
     "enable_bookmarks": {
-      "name": "Enable bookmarks",
+      "name": "Bookmarks",
       "type": "boolean",
       "default": false
     }
