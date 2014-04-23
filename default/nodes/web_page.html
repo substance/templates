@@ -1,7 +1,7 @@
 <div id="<%= node.id %>" class="content-node web-page">
   <div class="content">
-    <div class="page-wrapper">
-      <iframe src="<%= node.file %>" width="400" height="500"></iframe>
+    <div class="page-wrapper" style="width: <%= node.width %>; height: <%= node.height %>">
+      <iframe src="<%= node.file %>"></iframe>
     </div>
     <% if (node.caption) { %>
     <div class="caption"><%= annotated([node.caption, 'content']) %></div>

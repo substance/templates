@@ -1,0 +1,18 @@
+<div id="<%= node.id %>" class="content-node video">
+  <div class="content">
+    <div class="video-wrapper">
+    <video controls="true" class="">
+      <% _.each(node.getVideoFiles(), function(file) { %>
+        <% if (file.content_type === "video/mp4") { %>
+          <source src="<%= file.id %>" type="video/mp4; codecs='avc1.42E01E, mp4a.40.2'">
+        <% } else if (file.content_type === "video/ogg") { %>
+          <source src="<%= file.id %>" type="video/ogg'">
+        <% } %>
+      <% }); %>
+    </video>
+    </div>
+    <% if (node.caption) { %>
+    <div class="caption"><%= annotated([node.caption, 'content']) %></div>
+    <% } %>
+  </div>
+</div>
