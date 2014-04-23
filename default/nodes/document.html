@@ -23,7 +23,7 @@
 </head>
 <body>
 
-<div class="article<%= options.enable_section_numbering ? " section-numbering" : "" %>">
+<div class="article<%= options.enable_section_numbering ? " section-numbering" : "" %><%= options.enable_bookmarks ? " bookmarks-enabled" : "" %>">
 <%= render(doc) %>
 
 <div id="publication_info" class="content-node publication-info">

@@ -713,14 +713,13 @@ Outline
   }
 }
 
-
 @media (min-width: 651px) {
-  ::-webkit-scrollbar {
+  .bookmarks-enabled ::-webkit-scrollbar {
     width: 2px;
     height: 2px;
   }
 
-  ::-webkit-scrollbar-thumb {
+  .bookmarks-enabled ::-webkit-scrollbar-thumb {
     background-color: rgba(0, 0, 0, 0);
   }
 }
