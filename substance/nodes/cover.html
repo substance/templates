@@ -1,0 +1,49 @@
+<div id="cover" class="content-node cover">
+
+<div class="cover-image">
+  <img src="http://integral.github.io/stories/greenpeace/mannes-ubels/figure_00279c15089b6939a3f347cb0ab32b18.png"/>
+</div>
+
+<div class="content">
+
+<h1><%= annotated(['cover', 'title']) %></h1>
+
+<div class="article-meta">
+  <div class="authors">
+    By
+    <% node.document.getAuthors().forEach(function(a) { %>
+      <a href="#<%= a.id %>" class="author"><%= a.name %></a>
+    <% }); %>
+  </div>
+  <div class="published-on"><%= new Date(node.document.published_on).toDateString() %></div>
+</div>
+
+<% if (!node.document.abstract) { %>
+  <div class="article-abstract">
+    Article Abstract Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse mollis arcu at viverra sollicitudin. Pellentesque justo eros, posuere sed auctor rhoncus, vestibulum eget dolor. Nunc id ipsum sit amet nibh luctus faucibus.
+  </div>
+<% } %>
+
+<% 
+  var headings = [];
+  var doc = node.document;
+  var nodes = doc.get('content').nodes;
+  _.each(nodes, function(nodeId) {
+    var node = doc.get(nodeId);
+    if (node.type === "heading") headings.push(node);
+  });
+%> 
+
+<% if (options.include_toc && headings.length >= 2) { %>
+<div class="toc">
+  <div class="toc-title">Contents </div>
+  <div class="toc-entries">
+    <% _.each(headings, function(heading) { %>
+      <div class="toc-entry level-<%= heading.level %>"><a href="#<%= heading.id %>"><%= heading.content %></a></div>
+    <% }); %>
+  </div>
+</div>
+<% } %>
+
+</div>
+</div>

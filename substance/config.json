@@ -1,6 +1,6 @@
 {
-  "id": "default",
-  "name": "Default",
+  "id": "substance",
+  "name": "Substance",
   "params": {
     "include_toc": {
       "type": "boolean",
@@ -19,11 +19,6 @@
     },
     "include_source_file": {
       "name": "Source File",
-      "type": "boolean",
-      "default": false
-    },
-    "enable_bookmarks": {
-      "name": "Bookmarks",
       "type": "boolean",
       "default": false
     }

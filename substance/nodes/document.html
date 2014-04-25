@@ -95,7 +95,9 @@
         <% } %>
       </div>
 
-      <div class="generator">This article has been written in <a href="http://substance.io/composer">Substance</a></div>
+      <div class="generator">
+        This publication was produced with <a href="http://substance.io/composer">Substance</a> an open self-publishing system.
+      </div>
     </div>
     
   </div>
@@ -104,11 +106,11 @@
 
 <script>
   <% if (options.enable_bookmarks) { %>
-    $(function() {
-      var articleEl = $('.article')[0];
-      var app = new Reader(articleEl);
-      app.start();
-    });
+    // $(function() {
+    //   var articleEl = $('.article')[0];
+    //   var app = new Reader(articleEl);
+    //   app.start();
+    // });
   <% } %>
 </script>
 </body>
