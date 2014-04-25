@@ -293,7 +293,7 @@ code {
 }
 
 .content-node.code-block .content {
-
+  overflow: auto;
   font-family: Menlo, Bitstream Vera Sans Mono, Monaco, Consolas, monospace;
   max-width: 1000px;
   font-size: 13px;
