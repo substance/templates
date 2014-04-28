@@ -9,12 +9,15 @@
 <h1><%= annotated(['cover', 'title']) %></h1>
 
 <div class="article-meta">
-  <div class="authors">
-    By
-    <% node.document.getAuthors().forEach(function(a) { %>
-      <a href="#<%= a.id %>" class="author"><%= a.name %></a>
-    <% }); %>
-  </div>
+  <% var authors = node.document.getAuthors(); %>
+  <% if (authors.length > 0) { %>
+    <div class="authors">
+      By
+      <% node.document.getAuthors().forEach(function(a) { %>
+        <a href="#<%= a.id %>" class="author"><%= a.name %></a>
+      <% }); %>
+    </div>
+  <% } %>
   <div class="published-on"><%= new Date(node.document.published_on).toDateString() %></div>
 </div>
 

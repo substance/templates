@@ -209,13 +209,12 @@ code {
 }
 
 .content-node.cover .content .article-meta .authors {
-
+  padding-right: 20px;
   float: left;
 }
 
 .content-node.cover .content .article-meta .published-on {
   float: left;
-  padding-left: 20px;
   color: #888;
 }
 
