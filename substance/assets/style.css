@@ -508,6 +508,40 @@ code {
   max-width: 100%;
 }
 
+
+/* WebPage
+------------------------------------------------------- */
+
+.content-node.web-page {
+  text-align: center;
+  padding-bottom: 20px;
+  padding-bottom: 50px;
+}
+
+.content-node.web-page > .content {
+  max-width: 1000px;
+  margin: 0px auto;
+  text-align: center;
+}
+
+.content-node.web-page .caption {
+  font-size: 14px;
+  text-align: left;
+  color: #777;
+}
+
+.content-node.web-page .page-wrapper {
+  margin: auto;
+  background: #ccc;
+}
+
+.content-node.web-page .page-wrapper iframe {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+
 /* Video
 ------------------------------------------------------- */
 
