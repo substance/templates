@@ -1,8 +1,10 @@
 <div id="cover" class="content-node cover">
 
-<div class="cover-image">
-  <img src="http://integral.github.io/stories/greenpeace/mannes-ubels/figure_00279c15089b6939a3f347cb0ab32b18.png"/>
-</div>
+<% if (node.image) { %>
+  <div class="cover-image">
+    <img src="<%= node.image %>"/>
+  </div>
+<% } %>
 
 <div class="content">
 
@@ -13,17 +15,21 @@
   <% if (authors.length > 0) { %>
     <div class="authors">
       By
-      <% node.document.getAuthors().forEach(function(a) { %>
-        <a href="#<%= a.id %>" class="author"><%= a.name %></a>
-      <% }); %>
+
+      <%
+        var authorNames = node.document.getAuthors().map(function(a) {
+          return '<a href="#'+a.id+'" class="author">'+a.name+'</a>';
+        });
+      %>
+      <%= authorNames.join(" and ") %>
     </div>
   <% } %>
   <div class="published-on"><%= new Date(node.document.published_on).toDateString() %></div>
 </div>
 
-<% if (!node.document.abstract) { %>
+<% if (node.document.abstract) { %>
   <div class="article-abstract">
-    Article Abstract Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse mollis arcu at viverra sollicitudin. Pellentesque justo eros, posuere sed auctor rhoncus, vestibulum eget dolor. Nunc id ipsum sit amet nibh luctus faucibus.
+    <%= annotated(['cover', 'abstract']) %>
   </div>
 <% } %>
 

@@ -158,7 +158,7 @@ code {
   font-family: Menlo, Bitstream Vera Sans Mono, Monaco, Consolas, monospace;
   background: #f1f1f1;
   padding: 0 4px;
-  font-size: 15px;
+  font-size: 14px;
 }
 
 
@@ -169,6 +169,10 @@ code {
 
 .article {
   line-height: 30px;
+}
+
+.content-node .content {
+  position: relative;
 }
 
 .content-node .content {
@@ -227,12 +231,9 @@ code {
 /* Table of Contents */
 
 .content-node.cover .toc {
-/*  border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee;*/
   border-top: 1px solid #eee;
   margin-top: 50px;
   padding-top: 20px;
-  /*padding-bottom: 60px;*/
 }
 
 .content-node.cover .toc .toc-title {
@@ -366,16 +367,17 @@ code {
 .content-node.heading .content .anchor {
   display: none;
   position: absolute;
-  left: -20px;
+  left: 0px;
   width: 20px;
-  top: 20px;
+  top: 19px;
+  font-family: 'Open Sans';
   color: #aaa;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: bold;
 }
 
 .content-node.heading.level-2 .content .anchor {
-  top: 15px;
+  top: 13px;
 }
 
 .content-node.heading.level-3 .content .anchor {
@@ -516,7 +518,7 @@ code {
 }
 
 .content-node.video .video-wrapper video {
-  max-width: 100%;
+  width: 100%;
 }
 
 .content-node.video .caption {
