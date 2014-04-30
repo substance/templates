@@ -1,7 +1,7 @@
 <div id="<%= node.id %>" class="content-node video">
   <div class="content">
     <div class="video-wrapper">
-    <video controls="true" class="" poster="http://f.cl.ly/items/2E072U2e013z242u142a/Screen%20Shot%202014-04-25%20at%2023.47.42.png">
+    <video controls="true" class="" poster="">
       <% _.each(node.getVideoFiles(), function(file) { %>
         <% if (file.content_type === "video/mp4") { %>
           <source src="<%= file.id %>" type="video/mp4; codecs='avc1.42E01E, mp4a.40.2'">
