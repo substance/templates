@@ -7,6 +7,8 @@
             <source src="<%= file.id %>" type="audio/mpeg">
           <% } else if (file.content_type === "audio/ogg") { %>
             <source src="<%= file.id %>" type="audio/ogg">
+          <% } else if (file.content_type === "audio/wav") { %>
+            <source src="<%= file.id %>" type="audio/wav">
           <% } %>
         <% }); %>
       </audio>
