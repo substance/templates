@@ -16,11 +16,6 @@
       "name": "Numbering",
       "type": "boolean",
       "default": false
-    },
-    "include_source_file": {
-      "name": "Source File",
-      "type": "boolean",
-      "default": false
     }
   }
 }

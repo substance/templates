@@ -120,8 +120,6 @@ small,
 
 small { display:block; }
 
-
-
 /* Links */
 a,
 a code {
@@ -224,8 +222,7 @@ code {
 
 .content-node.cover .content .article-abstract {
   padding-top: 40px;
-  font-family: 'Open Sans';
-  font-size: 20px;
+  font-size: 24px;
 }
 
 /* Table of Contents */
@@ -393,14 +390,35 @@ code {
 }
 
 
+/* References (optional)
+------------------------------------------------------- */
+
+.content-node.references .content {
+  max-width: 640px;
+  margin: 0px auto;
+  padding-top: 40px;
+  margin-bottom: 60px;
+}
+
+.content-node.references .content .label {
+  font-weight: bold;
+  font-size: 22px;
+  padding-bottom: 15px;
+}
+
+
 /* Publication Info
 ------------------------------------------------------- */
 
 
 .content-node.publication-info {
-  /*font-family: 'Open Sans';*/
-  padding-top: 20px;
-  padding-bottom: 60px;
+  font-family: 'Open Sans';
+  background: #f9f9f9;
+  margin-top: 50px;
+  color: #666;
+  /*border-top: 1px solid #ddd;*/
+  padding-top: 60px;
+  /*padding-bottom: 60px;*/
 }
 
 .content-node.publication-info .content {
@@ -465,7 +483,9 @@ code {
 }
 
 .content-node.publication-info .copyright {
-  font-size: 15px;
+  padding-top: 40px;
+  font-size: 14px;
+  padding-bottom: 40px;
 }
 
 .content-node.publication-info .copyright .license {
@@ -473,7 +493,15 @@ code {
 }
 
 .content-node.publication-info .generator {
-  padding-top: 20px;
+  background: #262626;
+  color: rgba(255,255,255,0.6);
+  padding: 10px 0px;
+  font-size: 15px;
+  margin-top: 30px;
+}
+
+.content-node.publication-info .generator a {
+  color: white;
 }
 
 
