@@ -198,7 +198,7 @@ code {
   border-bottom: 1px solid #eee;
   margin-bottom: 50px;
 }
-  
+
 .content-node.cover .content h1 {
   font-size: 40px;
   line-height: 50px;
@@ -530,6 +530,7 @@ code {
   font-size: 14px;
   text-align: left;
   color: #777;
+  margin: 0 auto;
 }
 
 .content-node.figure img {

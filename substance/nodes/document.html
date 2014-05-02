@@ -12,6 +12,27 @@
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
   <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
+  <script>
+    window.onload = function() {
+      var imageEls = document.querySelectorAll(".figure img");
+      for (var i = 0; i < imageEls.length; i++) {
+        var imageEl = imageEls[i];
+        var parent = imageEl.parentNode;
+        var captionEl = parent.querySelector(".caption");
+        if (captionEl) {
+          function transferWidth() {
+            captionEl.style["max-width"] = imageEl.naturalWidth+"px";
+          }
+          if (imageEl.complete) {
+            transferWidth();
+          } else {
+            imageEl.onload = transferWidth;
+          }
+        }
+      };
+    };
+  </script>
+
   <link href="style.css" rel="stylesheet" />
   <% if (options.enable_bookmarks) { %>
   <script src="jquery-2.1.0.min.js"></script>
@@ -84,7 +105,7 @@
       </div>
     <% } %>
 
-    
+
 
     <div class="copyright">
       <!-- <div class="label">Copyright</div> -->
@@ -105,7 +126,7 @@
 
 
     </div>
-    
+
   </div>
 
 <div class="generator">
