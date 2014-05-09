@@ -1,0 +1,21 @@
+{
+  "id": "substance-dark",
+  "name": "Substance Dark",
+  "params": {
+    "include_toc": {
+      "type": "boolean",
+      "name": "Table of Contents",
+      "default": false
+    },
+    "include_references": {
+      "name": "References",
+      "type": "boolean",
+      "default": false
+    },
+    "enable_section_numbering": {
+      "name": "Numbering",
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

@@ -1,0 +1,20 @@
+<div id="<%= node.id %>" class="content-node audio">
+  <div class="content">
+    <div class="audio-wrapper">
+      <audio controls="true" class="">
+        <% _.each(node.getAudioFiles(), function(file) { %>
+          <% if (file.content_type === "audio/mp3" || file.content_type === "audio/mpeg") { %>
+            <source src="<%= file.id %>" type="audio/mpeg"/>
+          <% } else if (file.content_type === "audio/ogg") { %>
+            <source src="<%= file.id %>" type="audio/ogg"/>
+          <% } else if (file.content_type === "audio/wav") { %>
+            <source src="<%= file.id %>" type="audio/wav"/>
+          <% } %>
+        <% }); %>
+      </audio>
+    </div>
+    <% if (node.caption) { %>
+    <div class="caption"><%= annotated([node.caption, 'content']) %></div>
+    <% } %>
+  </div>
+</div>
