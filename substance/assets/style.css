@@ -38,7 +38,6 @@ table { border-collapse: collapse; border-spacing:0; }
 /* remember to define focus styles. Hee Haw */
 :focus { outline:0; }
 
-
 *, *:after, *:before {
   -webkit-box-sizing:border-box;
      -moz-box-sizing:border-box;
@@ -223,7 +222,6 @@ code {
 .content-node.cover .content .article-abstract {
   padding-top: 40px;
   font-size: 24px;
-  line-height: 35px;
 }
 
 /* Table of Contents */
@@ -437,18 +435,17 @@ code {
   font-weight: 600;
 }
 
-.content-node.references .citations {
-  padding-top: 10px;
+.content-node.publication-info .citations {
+  padding-top: 20px;
 }
 
-.content-node.references .citations .citation {
+.content-node.publication-info .citations .citation-url {
+  /*font-size: 14px;*/
+  /*padding-top: 20px;*/
 }
 
-.content-node.references .citations .citation-url {
-  font-family: 'Open Sans';
-}
-
-.content-node.references .citations .citation-description {
+.content-node.publication-info .citations .citation-description {
+  /*color: #777;*/
   font-size: 14px;
   padding-bottom: 20px;
 }
@@ -563,7 +560,6 @@ code {
 
 .content-node.web-page .page-wrapper {
   margin: auto;
-  background: #ccc;
 }
 
 .content-node.web-page .page-wrapper iframe {
@@ -648,7 +644,6 @@ body {
 .article.section-numbering .heading.level-1 {
   counter-increment: heading-1;
   counter-reset: heading-2 0 !important;
-  padding-bottom: 20px
 }
 
 .article.section-numbering .heading.level-1 h1:before { content: counter(heading-1) ". "; }
@@ -656,7 +651,6 @@ body {
 .article.section-numbering .heading.level-2 {
   counter-increment: heading-2;
   counter-reset: heading-3 0 !important;
-  padding-bottom: 20px
 }
 
 .article.section-numbering .heading.level-2 h2:before { content: counter(heading-1) "." counter(heading-2) ". "; }
