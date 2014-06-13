@@ -1,5 +1,25 @@
-<div id="<%= node.id %>" class="content-node text">
-<div class="content">
-  <%= annotated([node.id, 'content']) %>
-</div>
+<div id="<%= node.id %>" class='content-node text row'>
+  <!-- Empty left column -->
+  <div class="three columns"></div>
+
+  <!-- Content -->
+  <div class='six columns content'>
+    <%= annotated([node.id, 'content']) %>
+  </div>
+
+  <!-- Right column -->
+  <div class="three columns">
+      <div class="remarks">
+        <% annotations = node.document.indexes["annotations"].get(node.id); %>
+        
+        <% _.each(annotations, function(a, key) { %>
+          <% if (a.type === "remark_reference") { %>
+            <div class="remark">
+              <% var remark = node.document.get(a.target); %>
+              <%= annotated([a.target, 'description']) %>
+            </div>
+          <% } %>
+        <% }); %>
+      </div>
+  </div>
 </div>

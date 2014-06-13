@@ -1,5 +1,9 @@
-<div id="<%= node.id %>" class="content-node audio">
-  <div class="content">
+<div id="<%= node.id %>" class='content-node audio row'>
+  <!-- Empty left column -->
+  <div class="three columns"></div>
+
+  <!-- Content -->
+  <div class='six columns content'>
     <div class="audio-wrapper">
       <audio controls="true" class="">
         <% _.each(node.getAudioFiles(), function(file) { %>
@@ -12,9 +16,25 @@
           <% } %>
         <% }); %>
       </audio>
+      <% if (node.caption) { %>
+        <div class="caption"><%= annotated([node.caption, 'content']) %></div>
+      <% } %>
     </div>
-    <% if (node.caption) { %>
-    <div class="caption"><%= annotated([node.caption, 'content']) %></div>
-    <% } %>
+  </div>
+
+  <!-- Right column -->
+  <div class="three columns">
+      <div class="remarks">
+        <% annotations = node.document.indexes["annotations"].get(node.caption); %>
+        
+        <% _.each(annotations, function(a, key) { %>
+          <% if (a.type === "remark_reference") { %>
+            <div class="remark">
+              <% var remark = node.document.get(a.target); %>
+              <%= annotated([a.target, 'description']) %>
+            </div>
+          <% } %>
+        <% }); %>
+      </div>
   </div>
 </div>
