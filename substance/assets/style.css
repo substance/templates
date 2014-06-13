@@ -309,20 +309,24 @@ a {
 /* Quote
 ------------------------------------------------------- */
 
-.content-node.quote {
+.content-node.blockquote {
   margin-bottom: 30px;
 }
 
-.content-node.quote .content {
+.content-node.blockquote .content {
   /*max-width: 640px;*/
   /*margin: 0px auto;*/
   
   font-size: 30px;
   /*font-family: "Georgia";*/
 
-  font-weight: bold;
+  text-align: center;
+  /*font-weight: bold;*/
   font-style: italic;
-  line-height: 35px
+  line-height: 35px;
+  padding: 20px;
+  border-top: 1px solid #e6e6e6;
+  border-bottom: 1px solid #e6e6e6;
 }
 
 
@@ -359,14 +363,17 @@ a {
 
 .content-node.code-block {
   margin-bottom: 50px;
-  background: rgb(249, 249, 249);
+  /*background: rgb(249, 249, 249);*/
 }
 
-.content-node.code-block .content {
+.content-node.code-block .content pre {
   overflow: auto;
-  /*font-family: Menlo, Bitstream Vera Sans Mono, Monaco, Consolas, monospace;*/
-  
-  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-family: Menlo, Bitstream, 'Vera Sans Mono', Monaco, Consolas, monospace;
+
+  color: #666;
+  padding: 20px 0;
+  border-top: 1px solid #e6e6e6;
+  border-bottom: 1px solid #e6e6e6;
 
   max-width: 640px;
   font-size: 13px;

@@ -1,10 +1,10 @@
-<div id="<%= node.id %>" class='content-node code-block row'>
+<div id="<%= node.id %>" class='content-node blockquote row'>
   <!-- Empty left column -->
   <div class="three columns"></div>
 
   <!-- Content -->
   <div class='six columns content'>
-    <pre><%= escapedPlainText([node.id, 'content']) %></pre>
+    <%= annotated([node.id, 'content']) %>
   </div>
 
   <!-- Right column -->
