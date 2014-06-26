@@ -9,6 +9,7 @@
 
   <meta charset="utf-8"/>
   <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=yes" />
+  <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
   <script>
     // window.onload = function() {
@@ -47,8 +48,8 @@
 
 
 <div id="references" class="content-node references row">
-    <div class='three columns'></div>
-    <div class='six columns'>
+    <!-- <div class='three columns'></div> -->
+    <div class='nine columns'>
 
     <%
       var citations = _.map(doc.get('citations').nodes, function(citationId) {
@@ -75,22 +76,16 @@
 
 <!-- Publication Info - Footer -->
 
-<div id="publication_info" class="content-node publication-info">
+<div id="publication_info" class="content-node publication-info row">
 
-
-  <div class="row legal">
-    <div class='three columns'></div>
-    <div class='six columns'>
-
-
-
+  
+    <!-- <div class='three columns'></div> -->
+    <div class='nine columns'>
 
       <!-- Publish date -->
       <div class="published-on">
         “<%= doc.title %>” was published on <%= new Date(doc.published_on).toDateString() %>. It has been modified on <%= new Date(doc.updated_at).toDateString() %>.
       </div>
-
-
 
       <% var authors = []; %>
       <%
@@ -124,6 +119,8 @@
       <% } %>
 
 
+    </div>
+    <div class="three columns legal">
 
       <!-- Credits -->
       <div class="credits">
@@ -149,9 +146,9 @@
         </div>
 
       </div>
+
     </div>
-    <div class="three columns"></div>
-  </div>
+  
 </div>
 
 </div>

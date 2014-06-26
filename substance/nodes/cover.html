@@ -1,16 +1,23 @@
-<% if (node.image) { %>
-  <div class="cover-image">
-    <img src="<%= node.image %>"/>
+<div class="header">
+  <div class="row">
+    <div class='twelve columns'>
+      <div class="title"><%= node.document.title %></div>
+      <div class="section">Intro</div>
+    </div>
   </div>
-<% } %>
-<div id="cover" class="row content-node cover">
+</div>
 
-    <div class="three columns"></div>
-    <div class='six columns'>
+<div id="cover" class="content-node cover">
+  <div class="row cover-inner">
+    <!-- <div class="two columns"></div> -->
+    <div class='twelve columns'>
+      <div class="published-on"><%= new Date(node.document.published_on).toDateString() %></div>
+
       <div class="title"><%= annotated(['cover', 'title']) %></div>
 
       <!-- Article Meta like title, authors and publication date -->
       <div class="article-meta">
+
         <% var authors = node.document.getAuthors(); %>
         <% if (authors.length > 0) { %>
           <div class="authors">
@@ -23,7 +30,17 @@
             <%= authorNames.join(" and ") %>
           </div>
         <% } %>
-        <div class="published-on"><%= new Date(node.document.published_on).toDateString() %></div>
+
+        <% if (node.image) { %>
+          <div class="cover-image">
+            <img src="<%= node.image %>"/>
+          </div>
+        <% } %>
+
+        <div class="separator">
+          <i style="opacity: 0.2;" class="fa fa-cube"></i> <i style="opacity: 0.5;" class="fa fa-cube"></i> <i class="fa fa-cube"></i>
+        </div>
+        
       </div>
 
       <!-- Article Abstract -->
@@ -56,7 +73,7 @@
       <% } %>
 
     </div>
-    <div class="three columns"></div>
+  </div>
 </div>
 
 
