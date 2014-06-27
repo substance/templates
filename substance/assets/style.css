@@ -419,8 +419,9 @@ a {
 /*  border-top: 2px solid #e6e6e6;
   border-bottom: 2px solid #e6e6e6;*/
   
-  border-top: 2px solid #000;
-  border-bottom: 2px solid #000;
+  border-top: 2px solid #e6e6e6;
+  border-bottom: 2px solid #e6e6e6;
+  background: #f9f9f9;
 
   font-family: 'Helvetica Neue', 'Helvetica', 'Arial';
   font-size: 15px;
@@ -590,7 +591,7 @@ a {
 
 
 .content-node.publication-info {
-  border-top: 2px solid #000;
+  border-top: 2px solid #e6e6e6;
   /*border-bottom: 2px solid #000;*/
   margin-top: 60px;
   /*margin-bottom: 30px;*/
@@ -598,6 +599,7 @@ a {
   /*font-size: 16px;*/
   /*color: #fff;*/
   /*color: #888;*/
+  background: #f9f9f9;
   padding-top: 40px;
   padding-bottom: 40px;
   font-size: 16px;
