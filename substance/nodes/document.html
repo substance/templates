@@ -10,26 +10,104 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=yes" />
   <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+
+  <%
+    var citations = _.map(doc.get('citations').nodes, function(citationId) {
+      return doc.get(citationId);
+    });
+  %>
 
   <script>
-    // window.onload = function() {
-    //   var imageEls = document.querySelectorAll(".figure img");
-    //   for (var i = 0; i < imageEls.length; i++) {
-    //     var imageEl = imageEls[i];
-    //     var parent = imageEl.parentNode;
-    //     var captionEl = parent.querySelector(".caption");
-    //     if (captionEl) {
-    //       function transferWidth() {
-    //         captionEl.style["max-width"] = imageEl.naturalWidth+"px";
-    //       }
-    //       if (imageEl.complete) {
-    //         transferWidth();
-    //       } else {
-    //         imageEl.onload = transferWidth;
-    //       }
-    //     }
-    //   };
-    // };
+    $(function() {
+      // console.log('YO LOADED');
+      var tocToggled = false;
+      var lastScrollPos;
+
+      $('a.toggle-toc').on('click', function() {
+        if (tocToggled) {
+          // Restore prev scrollpos
+          $('.article').show();
+          $('.toc').hide();
+
+          $(window).scrollTop(lastScrollPos);
+          console.log('restoring scrollpos ', lastScrollPos);
+          tocToggled = false;
+        } else {
+          lastScrollPos = $(window).scrollTop();
+          console.log('storing last pos ', lastScrollPos);
+          tocToggled = true;
+          $('.article').hide();
+          $('.toc').show();
+        }      
+        return false;
+      });
+
+
+      $('.jumpto-node').on('click', function(e) {
+        var nodeId = $(e.currentTarget).attr("data-id");
+
+        $('.article').show();
+        $('.toc').hide();
+        tocToggled = false;
+
+        var $n = $('#'+nodeId);
+        if ($n.length > 0) {
+
+          var topOffset = $n.position().top;
+          var contentHeight = $('.article').height();
+          var panelHeight = $(window).height();
+
+          // This is the inverse compuptation as in markActiveHeading
+          var regularOffset = topOffset;
+          var smartOffset = (topOffset + contentHeight - 2 * panelHeight)*0.5;
+          var offset = Math.min(regularOffset, smartOffset);
+
+          $(window).scrollTop(Math.ceil(offset));
+
+          // TODO: Find a way so this does not trigger a hashchange event
+          // window.location.hash = nodeId;
+        }
+
+        return false;
+      });
+      
+      // Update active section
+
+      $(window).on('scroll', function() {
+        if (tocToggled) return;
+        var scrollTop = $(window).scrollTop();
+        // console.log('scrolltop', scrollTop);
+
+        var contentHeight = $('.article').height();
+        var panelHeight = $(window).height();
+        var scrollBottom = scrollTop + panelHeight;
+
+        var regularScanline = scrollTop;
+        var smartScanline = 2 * scrollBottom - contentHeight;
+        var scanline = Math.max(regularScanline, smartScanline);
+
+        var headings = $('.content-node.heading');
+
+        // Use first heading as default
+        var activeNode = headings[0].id;
+
+        headings.each(function() {
+          if (scanline >= $(this).position().top) {
+            activeNode = this.id;
+          }
+        });
+
+        // Update it
+
+        var headingName = $('#'+activeNode+' .heading-name').text();
+
+        $('.header .section').html(headingName);
+      });
+
+
+    });
   </script>
 
   <link href="style.css" rel="stylesheet" />
@@ -43,42 +121,138 @@
 </head>
 <body>
 
+<div class="header">
+  <div class="row">
+    <div class='twelve columns'>
+      <div class="title"><%= doc.title %></div>
+      <a class="section toggle-toc" href="#">Intro</a>
+    </div>
+  </div>
+</div>
+
+<!-- Table of Contents -->
+<% 
+  var sections = [];
+  
+  var nodes = doc.get('content').nodes;
+  var currentSection;
+  _.each(nodes, function(nodeId) {
+    var node = doc.get(nodeId);
+
+    if (node.type === "heading") {
+      currentSection = {
+        "heading": node,
+        figures: []
+      };
+      sections.push(currentSection);
+    } else if (currentSection) {
+
+      // Add teaser to section if it does not yet exist
+      if (node.type === "text" && !currentSection.teaser) {
+        currentSection.teaser = node;
+      }
+
+      // Collect figures per section
+      if (node.type === "figure") {
+        currentSection.figures.push(node);
+      }
+    }
+  });
+%> 
+
+
+<div class="toc">
+  <div class="toc-entries">
+    <% _.each(sections, function(section) { %>
+
+      <div class="toc-entry level-<%= section.heading.level %>">
+        <div class="row">
+          <div class="eight columns">
+            <div class="heading">
+              <a href="#<%= section.heading.id %>" class="jumpto-node" data-id="<%= section.heading.id %>"><%= section.heading.content %></a>
+            </div>
+            <div class="teaser">
+              <% if (section.teaser) { %>
+                <%= section.teaser.content %>
+              <% } %>
+            </div>
+          </div>
+          <!-- <div class="one columns"></div> -->
+          <div class="four columns figures">
+            <% _.each(section.figures, function(figure) { %>
+              <a class="figure jumpto-node" data-id="<%= figure.id %>" href="#<%= figure.id %>">
+                <img src="<%= figure.image %>">
+              </a>
+            <% }); %>
+          </div>
+        </div>
+      </div>
+    <% }); %>
+
+    <% if (options.include_references && citations.length > 0) { %>
+      <div class="toc-entry level-1">
+        <div class="row">
+          <div class="eight columns">
+            <div class="heading">
+              <a href="#heading_references" class="jumpto-node" data-id="heading_references">References</a>
+            </div>
+            <div class="teaser">
+              
+            </div>
+          </div>
+          <!-- <div class="one columns"></div> -->
+          <div class="four columns figures">
+          </div>
+        </div>
+      </div>
+    <% } %>
+  </div>
+</div>
+
 <div class="article<%= options.enable_section_numbering ? " section-numbering" : "" %><%= options.enable_bookmarks ? " bookmarks-enabled" : "" %>">
+
 <%= render(doc) %>
 
 
-<div id="references" class="content-node references row">
-    <!-- <div class='three columns'></div> -->
-    <div class='nine columns'>
 
-    <%
-      var citations = _.map(doc.get('citations').nodes, function(citationId) {
-        return doc.get(citationId);
-      });
-    %>
 
-    <% if (options.include_references && citations.length > 0) { %>
-      <div class="citations">
-        <div class="label">References</div>
-        <% citations.forEach(function(citation) { %>
-          <div class="citation" id="<%= citation.id %>">
-            <div class="citation-url"><a href="<%= citation.url %>"><%= citation.url %></a></div>
-            <div class="citation-description"><%= citation.description %></div>
-          </div>
-        <% }); %>
-      </div>
-    <% } %>
+<% if (options.include_references && citations.length > 0) { %>
+
+
+  <div id="heading_references" class='content-node heading level-1 row'>
+    <div class='nine columns content'>
+      <a href="#heading_references" class="anchor">#</a>
+      <h1 class="heading-name">References</h1>
     </div>
-    <div class='three columns'></div>
-</div>
+    <div class="three columns"></div>
+  </div>
 
 
+  <div id="references" class="content-node references row">
+      <!-- <div class='three columns'></div> -->
+      <div class='nine columns'>
+
+
+      
+        <div class="citations">
+          
+          <% citations.forEach(function(citation) { %>
+            <div class="citation" id="<%= citation.id %>">
+              <div class="citation-url"><a href="<%= citation.url %>"><%= citation.url %></a></div>
+              <div class="citation-description"><%= citation.description %></div>
+            </div>
+          <% }); %>
+        </div>
+      
+      </div>
+      <div class='three columns'></div>
+  </div>
+<% } %>
 
 <!-- Publication Info - Footer -->
 
 <div id="publication_info" class="content-node publication-info">
   <div class="row">
-
   
     <!-- <div class='three columns'></div> -->
     <div class='nine columns'>
@@ -149,8 +323,6 @@
         </div>
 
       </div>
-
-
 
     </div>
   </div>

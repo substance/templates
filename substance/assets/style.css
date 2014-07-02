@@ -155,6 +155,7 @@ a {
 ------------------------------------------------------- */
 
 .article {
+  /*display: none;*/
 }
 
 
@@ -245,6 +246,9 @@ a {
 }
 
 .header .section {
+  display: block;
+  color: white;
+  text-decoration: none;
   padding-right: 15px;
   float: right;
   line-height: 35px;
@@ -343,7 +347,7 @@ a {
 
 /* Table of Contents */
 
-.content-node.cover .toc {
+/*.content-node.cover .toc {
   border-top: 1px solid #e6e6e6;
   margin-top: 40px;
   padding-top: 30px;
@@ -354,23 +358,93 @@ a {
   display: none;
   font-weight: 600;
   padding-bottom: 20px;
+}*/
+
+
+.toc {
+  display: none;
+  /*padding: 30px;*/
+  /*position: fixed;*/
+  /*right: 0px;*/
+  /*width: 370px;*/
+/*  left: 0px;
+  top: 35px;
+  bottom: 0px;*/
+  /*overflow: auto;*/
+  /*background: #f9f9f9;*/
+  background: black;
+  padding-top: 50px;
+  /*border-left: 2px solid #e6e6e6;*/
+  /*z-index: 10000;*/
+  color: #fff;
+  /*opacity: 0.9;*/
 }
 
-.content-node.cover .toc .toc-entry {
+
+.toc a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.toc .toc-entry {
   font-size: 17px;
+  padding: 15px 0;
+}
+
+
+.toc .toc-entry:nth-child(odd) {
+  /*background:#151515;*/
+}
+
+.toc .toc-entry.level-1 .row {
+  border-top: 1px solid #555;
+}
+
+.toc .toc-entry .heading {
+  font-weight: bold;
+  font-style: italic;
+  padding-left: 15px;
+  padding-top: 30px;
+}
+
+.toc .toc-entry .teaser {
+  font-size: 14px;
+  padding-top: 10px;
+  padding-left: 15px;
+  font-family: 'Helvetica Neue', 'Helvetica', 'Arial';
+  color: rgba(255,255,255,0.5);
+}
+
+.toc .toc-entry .figures {
+  padding-top: 40px;
+  overflow: auto;
+}
+
+.toc .toc-entry .figures img {
+  width: 100px;
+}
+
+.toc .toc-entry .figures .figure {
+  display: block;
+  float: left;
+  margin-right: 10px;
+}
+
+.toc .toc-entry.level-1 {
+  font-size: 30px;
+  /*padding-left: 20px;*/
 }
 
 .toc .toc-entry.level-2 {
-  padding-left: 20px;
+  font-size: 24px;
+  /*padding-left: 20px;*/
 }
 
 .toc .toc-entry.level-3 {
-  padding-left: 40px;
+  font-size: 18px;
+  /*padding-left: 40px;*/
 }
 
-.toc .toc-entry.level-4 {
-  padding-left: 60px;
-}
 
 
 /* Text (Paragraph)
