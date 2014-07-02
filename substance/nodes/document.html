@@ -12,45 +12,45 @@
   <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 
-
   <%
     var citations = _.map(doc.get('citations').nodes, function(citationId) {
       return doc.get(citationId);
     });
   %>
 
+
   <script>
     $(function() {
-      // console.log('YO LOADED');
       var tocToggled = false;
       var lastScrollPos;
 
-      $('a.toggle-toc').on('click', function() {
-        if (tocToggled) {
-          // Restore prev scrollpos
-          $('.article').show();
-          $('.toc').hide();
+      function tocActive() {
+        return $('body').hasClass('toc-active');
+      }
 
+      $('a.toggle-toc').on('click', function() {
+        if (tocActive()) {
+          $('body').removeClass('toc-active');
+
+          // Restore saved scroll position
           $(window).scrollTop(lastScrollPos);
           console.log('restoring scrollpos ', lastScrollPos);
-          tocToggled = false;
         } else {
           lastScrollPos = $(window).scrollTop();
           console.log('storing last pos ', lastScrollPos);
-          tocToggled = true;
-          $('.article').hide();
-          $('.toc').show();
+          $('body').addClass('toc-active');
         }      
         return false;
       });
 
+      // Jump to node
+      // ----------------
+      // 
 
       $('.jumpto-node').on('click', function(e) {
         var nodeId = $(e.currentTarget).attr("data-id");
 
-        $('.article').show();
-        $('.toc').hide();
-        tocToggled = false;
+        $('body').removeClass('toc-active');
 
         var $n = $('#'+nodeId);
         if ($n.length > 0) {
@@ -74,6 +74,8 @@
       });
       
       // Update active section
+      // ----------------
+      // 
 
       $(window).on('scroll', function() {
         if (tocToggled) return;
@@ -91,7 +93,7 @@
         var headings = $('.content-node.heading');
 
         // Use first heading as default
-        var activeNode = headings[0].id;
+        var activeNode = null; // headings[0].id;
 
         headings.each(function() {
           if (scanline >= $(this).position().top) {
@@ -100,8 +102,14 @@
         });
 
         // Update it
+        var headingName;
 
-        var headingName = $('#'+activeNode+' .heading-name').text();
+        if (activeNode) {
+          headingName = $('#'+activeNode+' .heading-name').text();
+        } else {
+          headingName = "<%= doc.title %>"
+        }
+        
 
         $('.header .section').html(headingName);
       });
@@ -119,15 +127,19 @@
 
   <title><%= doc.title %></title>
 </head>
-<body>
+<body class="<%= options.enable_section_numbering ? "section-numbering" : "" %>">
 
 <div class="header">
+  <a class="toggle-toc" href="#">
   <div class="row">
     <div class='twelve columns'>
-      <div class="title"><%= doc.title %></div>
-      <a class="section toggle-toc" href="#">Intro</a>
+      
+      
+      <div class="title">Table of Contents <i class="fa fa-caret-down"></i> <i class="fa fa-caret-up"></i></div>  
+      <i class="fa fa-align-left"></i> <span class="section">Contents</span>
     </div>
   </div>
+  </a>
 </div>
 
 <!-- Table of Contents -->
@@ -168,14 +180,14 @@
       <div class="toc-entry level-<%= section.heading.level %>">
         <div class="row">
           <div class="eight columns">
-            <div class="heading">
-              <a href="#<%= section.heading.id %>" class="jumpto-node" data-id="<%= section.heading.id %>"><%= section.heading.content %></a>
-            </div>
-            <div class="teaser">
-              <% if (section.teaser) { %>
-                <%= section.teaser.content %>
-              <% } %>
-            </div>
+            <a href="#<%= section.heading.id %>" class="jumpto-node" data-id="<%= section.heading.id %>">
+              <div class="heading"><%= section.heading.content %></div>
+              <div class="teaser">
+                <% if (section.teaser) { %>
+                  <%= section.teaser.content %>
+                <% } %>
+              </div>
+            </a>
           </div>
           <!-- <div class="one columns"></div> -->
           <div class="four columns figures">
@@ -209,11 +221,9 @@
   </div>
 </div>
 
-<div class="article<%= options.enable_section_numbering ? " section-numbering" : "" %><%= options.enable_bookmarks ? " bookmarks-enabled" : "" %>">
+<div class="article">
 
 <%= render(doc) %>
-
-
 
 
 <% if (options.include_references && citations.length > 0) { %>
