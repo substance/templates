@@ -232,7 +232,7 @@ body.toc-active .article {
   /*background: #000;*/
   /*color: #000;*/
   color: #fff;
-  overflow: auto;
+  overflow: hidden;
   font-family: 'Helvetica Neue', 'Helvetica', 'Arial';
   font-size: 14px;
 
@@ -251,25 +251,29 @@ body.toc-active .article {
 }*/
 
 .header .title {
-  text-align: center;
-  padding-left: 15px;
+  float: left;
+  line-height: 40px;
+}
+
+.header .info {
+  text-align: right;
   float: right;
   line-height: 40px;
 }
 
-.header .title i {
+.header .info i {
   padding-left: 10px;
 }
 
-.header .title i.fa-caret-up {
+.header .info i.fa-caret-up {
   display: none;
 }
 
-body.toc-active .header .title i.fa-caret-up {
+body.toc-active .header .info i.fa-caret-up {
   display: inline-block;
 }
 
-body.toc-active .header .title i.fa-caret-down {
+body.toc-active .header .info i.fa-caret-down {
   display: none;
 }
 
@@ -277,8 +281,6 @@ body.toc-active .header .title i.fa-caret-down {
   display: block;
   color: white;
   text-decoration: none;
-  padding-right: 15px;
-  /*float: right;*/
   line-height: 40px;
 }
 
@@ -292,12 +294,13 @@ body.toc-active .header .title i.fa-caret-down {
 ------------------------------------------------------- */
 
 .content-node.cover {
-  margin-top: 50px;
   padding-bottom: 20px;
   background: #fff;
-  /*background: #f1f1f1;*/
   margin-bottom: 50px;
-  
+}
+
+.include-toc .content-node.cover {
+  padding-top: 40px;
 }
 
 .content-node.cover .cover-inner {
@@ -431,7 +434,7 @@ body.toc-active .toc {
   /*color: #666;*/
 }
 
-.toc .toc-entry:hover {
+.toc .toc-entry:hover, .toc .toc-entry.active {
   background: #111;
 }
 
@@ -585,8 +588,6 @@ body.toc-active .toc {
   background: #000;
   color: #aaa;
   padding: 20px 20px;
-  border-top: 2px solid #000; /* #e6e6e6; */
-  border-bottom: 2px solid #000; /* #e6e6e6; */
 
   font-size: 13px;
   line-height: 18px;

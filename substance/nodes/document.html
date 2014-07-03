@@ -18,7 +18,7 @@
     });
   %>
 
-
+  <% if (options.include_toc) { %>
   <script>
     $(function() {
       var tocToggled = false;
@@ -37,8 +37,14 @@
           console.log('restoring scrollpos ', lastScrollPos);
         } else {
           lastScrollPos = $(window).scrollTop();
-          console.log('storing last pos ', lastScrollPos);
+          
           $('body').addClass('toc-active');
+
+          // Center active section in toc
+          var activeSection = $('.toc-entry.active');
+          if (activeSection) {
+            $(window).scrollTop($('.toc-entry.active').position().top-100);  
+          }
         }      
         return false;
       });
@@ -64,7 +70,7 @@
           var smartOffset = (topOffset + contentHeight - 2 * panelHeight)*0.5;
           var offset = Math.min(regularOffset, smartOffset);
 
-          $(window).scrollTop(Math.ceil(offset));
+          $(window).scrollTop(Math.ceil(offset)-60);
 
           // TODO: Find a way so this does not trigger a hashchange event
           // window.location.hash = nodeId;
@@ -78,7 +84,7 @@
       // 
 
       $(window).on('scroll', function() {
-        if (tocToggled) return;
+        if (tocActive()) return;
         var scrollTop = $(window).scrollTop();
         // console.log('scrolltop', scrollTop);
 
@@ -103,20 +109,23 @@
 
         // Update it
         var headingName;
-
         if (activeNode) {
           headingName = $('#'+activeNode+' .heading-name').text();
+          console.log('MEEH');
+          $('.toc-entry').removeClass('active');
+          $('#toc_'+activeNode).addClass('active');
+          console.log('MEEH', $('#toc_'+activeNode)[0]);
         } else {
-          headingName = "<%= doc.title %>"
+          headingName = "<%= doc.title %>";
         }
-        
 
+
+        
         $('.header .section').html(headingName);
       });
-
-
     });
   </script>
+  <% } %>
 
   <link href="style.css" rel="stylesheet" />
   <% if (options.enable_bookmarks) { %>
@@ -127,99 +136,106 @@
 
   <title><%= doc.title %></title>
 </head>
-<body class="<%= options.enable_section_numbering ? "section-numbering" : "" %>">
+<body class="<%= options.enable_section_numbering ? "section-numbering" : "" %><%= options.include_toc ? " include-toc" : "" %>">
 
-<div class="header">
-  <a class="toggle-toc" href="#">
-  <div class="row">
-    <div class='twelve columns'>
-      
-      
-      <div class="title">Table of Contents <i class="fa fa-caret-down"></i> <i class="fa fa-caret-up"></i></div>  
-      <i class="fa fa-align-left"></i> <span class="section">Contents</span>
+
+<% if (options.include_toc) { %>
+  <div class="header">
+    <a class="toggle-toc" href="#">
+    <div class="row">
+      <div class='twelve columns'>
+        
+        <div class="title"><i class="fa fa-align-left"></i> <span class="section">Contents</span></div>
+        <div class="info">Table of Contents <i class="fa fa-caret-down"></i> <i class="fa fa-caret-up"></i></div>  
+        
+      </div>
+    </div>
+    </a>
+  </div>
+
+
+  <!-- Table of Contents -->
+  <% 
+    var sections = [];
+    
+    var nodes = doc.get('content').nodes;
+    var currentSection;
+    _.each(nodes, function(nodeId) {
+      var node = doc.get(nodeId);
+
+      if (node.type === "heading") {
+        currentSection = {
+          "heading": node,
+          figures: []
+        };
+        sections.push(currentSection);
+      } else if (currentSection) {
+
+        // Add teaser to section if it does not yet exist
+        if (node.type === "text" && !currentSection.teaser) {
+          currentSection.teaser = node;
+        }
+
+        // Collect figures per section
+        if (node.type === "figure") {
+          currentSection.figures.push(node);
+        }
+      }
+    });
+  %> 
+
+
+  <div class="toc">
+    <div class="toc-entries">
+      <% _.each(sections, function(section) { %>
+
+        <div id="toc_<%= section.heading.id %>" class="toc-entry level-<%= section.heading.level %>">
+          <div class="row">
+            <div class="eight columns">
+              <a href="#<%= section.heading.id %>" class="jumpto-node" data-id="<%= section.heading.id %>">
+                <div class="heading"><%= section.heading.content %></div>
+                <div class="teaser">
+                  <% if (section.teaser) { %>
+                    <%= section.teaser.content %>
+                  <% } %>
+                </div>
+              </a>
+            </div>
+            <!-- <div class="one columns"></div> -->
+            <div class="four columns figures">
+              <% _.each(section.figures, function(figure) { %>
+                <a class="figure jumpto-node" data-id="<%= figure.id %>" href="#<%= figure.id %>">
+                  <img src="<%= figure.image %>">
+                </a>
+              <% }); %>
+            </div>
+          </div>
+        </div>
+      <% }); %>
+
+      <% if (options.include_references && citations.length > 0) { %>
+        <div class="toc-entry level-1" id="toc_heading_references">
+          <div class="row">
+            <div class="eight columns">
+              <a href="#heading_references" class="jumpto-node" data-id="heading_references">
+                <div class="heading">
+                  References
+                </div>
+                <div class="teaser">
+                  
+                </div>
+              </a>
+            </div>
+            <!-- <div class="one columns"></div> -->
+            <div class="four columns figures">
+            </div>
+          </div>
+        </div>
+      <% } %>
     </div>
   </div>
-  </a>
-</div>
+<% } %>
 
-<!-- Table of Contents -->
-<% 
-  var sections = [];
-  
-  var nodes = doc.get('content').nodes;
-  var currentSection;
-  _.each(nodes, function(nodeId) {
-    var node = doc.get(nodeId);
-
-    if (node.type === "heading") {
-      currentSection = {
-        "heading": node,
-        figures: []
-      };
-      sections.push(currentSection);
-    } else if (currentSection) {
-
-      // Add teaser to section if it does not yet exist
-      if (node.type === "text" && !currentSection.teaser) {
-        currentSection.teaser = node;
-      }
-
-      // Collect figures per section
-      if (node.type === "figure") {
-        currentSection.figures.push(node);
-      }
-    }
-  });
-%> 
-
-
-<div class="toc">
-  <div class="toc-entries">
-    <% _.each(sections, function(section) { %>
-
-      <div class="toc-entry level-<%= section.heading.level %>">
-        <div class="row">
-          <div class="eight columns">
-            <a href="#<%= section.heading.id %>" class="jumpto-node" data-id="<%= section.heading.id %>">
-              <div class="heading"><%= section.heading.content %></div>
-              <div class="teaser">
-                <% if (section.teaser) { %>
-                  <%= section.teaser.content %>
-                <% } %>
-              </div>
-            </a>
-          </div>
-          <!-- <div class="one columns"></div> -->
-          <div class="four columns figures">
-            <% _.each(section.figures, function(figure) { %>
-              <a class="figure jumpto-node" data-id="<%= figure.id %>" href="#<%= figure.id %>">
-                <img src="<%= figure.image %>">
-              </a>
-            <% }); %>
-          </div>
-        </div>
-      </div>
-    <% }); %>
-
-    <% if (options.include_references && citations.length > 0) { %>
-      <div class="toc-entry level-1">
-        <div class="row">
-          <div class="eight columns">
-            <div class="heading">
-              <a href="#heading_references" class="jumpto-node" data-id="heading_references">References</a>
-            </div>
-            <div class="teaser">
-              
-            </div>
-          </div>
-          <!-- <div class="one columns"></div> -->
-          <div class="four columns figures">
-          </div>
-        </div>
-      </div>
-    <% } %>
-  </div>
-</div>
 
 <div class="article">
 
@@ -242,13 +258,11 @@
       <!-- <div class='three columns'></div> -->
       <div class='nine columns'>
 
-
-      
         <div class="citations">
           
           <% citations.forEach(function(citation) { %>
             <div class="citation" id="<%= citation.id %>">
-              <div class="citation-url"><a href="<%= citation.url %>"><%= citation.url %></a></div>
+              <div class="citation-url"><a href="<%= citation.url %>"><%= citation.title %></a></div>
               <div class="citation-description"><%= citation.description %></div>
             </div>
           <% }); %>
