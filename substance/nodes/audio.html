@@ -24,6 +24,7 @@
 
   <!-- Right column -->
   <div class="three columns">
+    <% if (options.include_remarks) { %>
       <div class="remarks">
         <% annotations = node.document.indexes["annotations"].get(node.caption); %>
         
@@ -36,5 +37,6 @@
           <% } %>
         <% }); %>
       </div>
+    <% } %>
   </div>
 </div>

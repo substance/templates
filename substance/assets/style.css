@@ -577,8 +577,6 @@ body.toc-active .toc {
 
 .content-node.code-block {
   margin-bottom: 50px;
-  /*background: rgb(249, 249, 249);*/
-
 }
 
 .content-node.code-block .content pre {
@@ -594,8 +592,6 @@ body.toc-active .toc {
   margin: 0px auto;
   padding-top: 30px;
   padding-bottom: 30px;
-  /*border-top: 1px solid #ccc;*/
-  /*background: #f1f1f1;*/
 }
 
 
@@ -603,8 +599,7 @@ body.toc-active .toc {
 ------------------------------------------------------- */
 
 .content-node.list-item {
-  max-width: 640px;
-  margin: 0px auto;
+
 }
 
 .content-node.list-item .content {

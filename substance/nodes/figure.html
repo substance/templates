@@ -5,6 +5,7 @@
   <div class='three columns'>
     <div class="description">
       <div class="figure-caption"><%= annotated([node.caption, 'content']) %></div>
+      <% if (options.include_remarks) { %>
       <div class="remarks">
         <% annotations = node.document.indexes["annotations"].get(node.caption); %>
         
@@ -17,6 +18,7 @@
           <% } %>
         <% }); %>
       </div>
+      <% } %>
     </div>
 
   </div>

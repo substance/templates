@@ -16,6 +16,11 @@
       "name": "Numbering",
       "type": "boolean",
       "default": false
+    },
+    "include_remarks": {
+      "name": "Remarks",
+      "type": "boolean",
+      "default": false
     }
   }
 }
