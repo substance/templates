@@ -227,10 +227,8 @@ body.toc-active .article {
   left: 0px;
   right: 0px;
   height: 40px;
-
   background: #262626;
-  /*background: #000;*/
-  /*color: #000;*/
+
   color: #fff;
   overflow: hidden;
   font-family: 'Helvetica Neue', 'Helvetica', 'Arial';
@@ -238,17 +236,11 @@ body.toc-active .article {
 
   font-weight: bold;
   z-index: 100000;
-  /*border-bottom: 2px solid #eee;*/
 }
 
 .header:hover, body.toc-active .header {
   background: #000;
 }
-
-/*.header.dark {
-  background: #000;
-  color: #fff;
-}*/
 
 .header .title {
   float: left;

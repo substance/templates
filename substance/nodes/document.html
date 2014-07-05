@@ -20,6 +20,8 @@
 
   <% if (options.include_toc) { %>
   <script>
+    // Top offset, making up for the space of the sticky menu bar
+    var CORRECTION = 60;
     $(function() {
       var tocToggled = false;
       var lastScrollPos;
@@ -34,16 +36,16 @@
 
           // Restore saved scroll position
           $(window).scrollTop(lastScrollPos);
-          console.log('restoring scrollpos ', lastScrollPos);
         } else {
           lastScrollPos = $(window).scrollTop();
-          
           $('body').addClass('toc-active');
 
           // Center active section in toc
           var activeSection = $('.toc-entry.active');
           if (activeSection) {
-            $(window).scrollTop($('.toc-entry.active').position().top-100);  
+            $(window).scrollTop($('.toc-entry.active').position().top);  
+          } else {
+            $(window).scrollTop(0);
           }
         }      
         return false;
@@ -62,6 +64,7 @@
         if ($n.length > 0) {
 
           var topOffset = $n.position().top;
+          topOffset = topOffset - CORRECTION;
           var contentHeight = $('.article').height();
           var panelHeight = $(window).height();
 
@@ -70,7 +73,7 @@
           var smartOffset = (topOffset + contentHeight - 2 * panelHeight)*0.5;
           var offset = Math.min(regularOffset, smartOffset);
 
-          $(window).scrollTop(Math.ceil(offset)-60);
+          $(window).scrollTop(Math.ceil(offset));
 
           // TODO: Find a way so this does not trigger a hashchange event
           // window.location.hash = nodeId;
@@ -85,10 +88,10 @@
 
       $(window).on('scroll', function() {
         if (tocActive()) return;
-        var scrollTop = $(window).scrollTop();
+        var scrollTop = $(window).scrollTop() + CORRECTION;
         // console.log('scrolltop', scrollTop);
 
-        var contentHeight = $('.article').height();
+        var contentHeight = $('.article').height()+CORRECTION;
         var panelHeight = $(window).height();
         var scrollBottom = scrollTop + panelHeight;
 
@@ -109,16 +112,14 @@
 
         // Update it
         var headingName;
+        $('.toc-entry').removeClass('active');
+
         if (activeNode) {
           headingName = $('#'+activeNode+' .heading-name').text();
-          console.log('MEEH');
-          $('.toc-entry').removeClass('active');
           $('#toc_'+activeNode).addClass('active');
-          console.log('MEEH', $('#toc_'+activeNode)[0]);
         } else {
           headingName = "<%= doc.title %>";
         }
-
 
         
         $('.header .section').html(headingName);
@@ -145,7 +146,7 @@
     <div class="row">
       <div class='twelve columns'>
         
-        <div class="title"><i class="fa fa-align-left"></i> <span class="section">Contents</span></div>
+        <div class="title"><i class="fa fa-align-left"></i> <span class="section"><%= doc.title %></span></div>
         <div class="info">Table of Contents <i class="fa fa-caret-down"></i> <i class="fa fa-caret-up"></i></div>  
         
       </div>
@@ -316,13 +317,9 @@
           </div>
         </div>
       <% } %>
-
-
     </div>
+    
     <div class="three columns legal">
-
-
-
       <!-- Copyright Statement -->
       <div class="copyright">
         <% var license = doc.get('license'); %>
