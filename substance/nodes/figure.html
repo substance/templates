@@ -4,11 +4,13 @@
   </div>
   <div class='three columns'>
     <div class="description">
-      <div class="figure-caption"><%= annotated([node.caption, 'content']) %></div>
-      <% if (options.include_remarks) { %>
+      <% captionHTML = annotated([node.caption, 'content']); %>
+      <% if (captionHTML) { %>
+        <div class="figure-caption"><%= captionHTML %></div>
+      <% } %>
+      <% annotations = node.document.indexes["annotations"].get(node.caption); %>
+      <% if (options.include_remarks && annotations.length > 0) { %>
       <div class="remarks">
-        <% annotations = node.document.indexes["annotations"].get(node.caption); %>
-        
         <% _.each(annotations, function(a, key) { %>
           <% if (a.type === "remark_reference") { %>
             <div class="remark">
