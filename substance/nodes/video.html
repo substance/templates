@@ -1,6 +1,6 @@
 <div id="<%= node.id %>" class='content-node video row'>
   <div class='nine columns video-wrapper'>
-    
+
      <video controls="true" class="" poster="<%= node.poster %>">
      <% _.each(node.getVideoFiles(), function(file) { %>
       <% if (file.content_type === "video/mp4") { %>
@@ -18,8 +18,8 @@
     <div class="description">
       <div class="figure-caption"><%= annotated([node.caption, 'content']) %></div>
       <div class="remarks">
-        <% annotations = node.document.indexes["annotations"].get(node.caption); %>
-        
+        <% annotations = node.document.getIndex("annotations").get(node.caption); %>
+
         <% _.each(annotations, function(a, key) { %>
           <% if (a.type === "remark_reference") { %>
             <div class="remark">

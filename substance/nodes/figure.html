@@ -8,7 +8,7 @@
       <% if (captionHTML) { %>
         <div class="figure-caption"><%= captionHTML %></div>
       <% } %>
-      <% annotations = node.document.indexes["annotations"].get(node.caption); %>
+      <% annotations = node.document.getIndex("annotations").get(node.caption); %>
       <% if (options.include_remarks && annotations.length > 0) { %>
       <div class="remarks">
         <% _.each(annotations, function(a, key) { %>
